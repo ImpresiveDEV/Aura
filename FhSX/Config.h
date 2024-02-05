@@ -8,6 +8,7 @@ extern bool doOnce;
 extern bool logfree;
 extern bool CheckLic;
 extern bool AdditionalCheck;
+extern bool show_login;
 
 extern int SelectServerGame;
 

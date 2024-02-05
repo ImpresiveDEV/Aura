@@ -4,21 +4,6 @@
 #include <iostream>
 #include "Config.h"
 
-bool show_main_menu = true;
-bool ServerChina = false;
-bool ServerRiot = true;
-bool doOnce = false;
-bool logfree = false;
-bool CheckLic = false;
-bool AdditionalCheck = true;
-bool show_login = false;
-
-static int SelectServerGame = 1;
-
-static bool AutoInject = true;
-
-std::string State = ("Waiting");
-
 void Menu::load_styles()
 {
     ImVec4* colors = ImGui::GetStyle().Colors;

@@ -1,17 +1,17 @@
 #include "config.h"
 #include <string>
 
-bool show_main_menu = true;
+bool show_main_menu = false;
 bool ServerChina = false;
 bool ServerRiot = true;
-bool ServerChina = false;
 bool doOnce = false;
 bool logfree = false;
 bool CheckLic = false;
 bool AdditionalCheck = true;
+bool show_login = true;
 
-static int SelectServerGame = 1;
+int SelectServerGame = 1;
 
-static bool AutoInject = true;
+bool AutoInject = true;
 
 std::string State = ("Waiting");
