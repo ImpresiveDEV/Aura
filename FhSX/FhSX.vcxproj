@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="auth.hpp" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="DxInit.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -144,6 +146,7 @@
     <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="DxInit.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
