@@ -1,2 +1,5 @@
-# Aura_SX
-popraw mi odpowiedz (hanbot to platforma do gry league)  This project aims to create a tool that allows players to avoid detection by the anti-cheat system used by Riot Games in League of Legends. Currently this project only support Hanbot core.
+Bypass Anti-Cheat for Riot Games in League of Legends for Hanbot Core.
+
+*Note*:
+This project is strictly for educational purposes, and we do not encourage cheating in games. Fair play and respect for fellow players are essential values in the esports world.
+Feel free to ask any questions or share your suggestions! 🎮🚀
