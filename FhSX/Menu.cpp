@@ -64,8 +64,8 @@ void Menu::render() {
                 globals.active = false;
             }
 
-            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.054, 0.054, 0.054, 255));
-            ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.082, 0.078, 0.078, 255));
+            ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.054f, 0.054f, 0.054f, 255));
+            ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.082f, 0.078f, 0.078f, 255));
             ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 3.f);
             {
 
@@ -109,8 +109,8 @@ void Menu::render() {
                     ImGui::SetCursorPos(ImVec2(90, 65));
                     ImGui::BeginChild(("##Core"), ImVec2(300, 350), true);
                     {
-                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.054, 0.054, 0.054, 255));
-                        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.082, 0.078, 0.078, 255));
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.054f, 0.054f, 0.054f, 255.0f));
+                        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.082f, 0.078f, 0.078f, 255.0f));
                         ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 3.f);
 
                         ImGui::TextDisabled("Core Function");
@@ -176,8 +176,8 @@ void Menu::render() {
                     ImGui::SetCursorPos(ImVec2(400, 65));
                     ImGui::BeginChild(("##Main"), ImVec2(300, 350), true);
                     {
-                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.054, 0.054, 0.054, 255));
-                        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.082, 0.078, 0.078, 255));
+                        ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.054f, 0.054f, 0.054f, 255.0f));
+                        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.082f, 0.078f, 0.078f, 255.0f));
                         ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 3.f);
 
                         ImGui::TextDisabled("License");

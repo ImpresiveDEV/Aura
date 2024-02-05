@@ -78,6 +78,12 @@
     <ClInclude Include="utils.hpp">
       <Filter>Loader\Authentication\Keyauth\Libs</Filter>
     </ClInclude>
+    <ClInclude Include="auth.h">
+      <Filter>Loader\Authentication\Keyauth</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyAuthInit.h">
+      <Filter>Loader\Authentication\Keyauth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -113,5 +119,16 @@
     <ClCompile Include="Config.cpp">
       <Filter>interface</Filter>
     </ClCompile>
+    <ClCompile Include="KeyAuthInit.cpp">
+      <Filter>Loader\Authentication\Keyauth</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Dependencies\libcurl.lib">
+      <Filter>Loader\Authentication\Keyauth\Libs</Filter>
+    </Library>
+    <Library Include="Dependencies\library_x64.lib">
+      <Filter>Loader\Authentication\Keyauth\Libs</Filter>
+    </Library>
   </ItemGroup>
 </Project>
