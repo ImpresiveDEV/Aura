@@ -28,6 +28,9 @@
     <Filter Include="Loader\Authentication\Keyauth">
       <UniqueIdentifier>{d164702e-925f-4d8e-a2b1-72612fbde53e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Loader\Authentication\Keyauth\Libs">
+      <UniqueIdentifier>{8da8279c-6076-4839-a7d9-c448679b1cf9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -66,8 +69,14 @@
     <ClInclude Include="Config.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="auth.hpp">
-      <Filter>Loader\Authentication\Keyauth</Filter>
+    <ClInclude Include="skStr.h">
+      <Filter>Loader\Authentication\Keyauth\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Loader\Authentication\Keyauth\Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.hpp">
+      <Filter>Loader\Authentication\Keyauth\Libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
