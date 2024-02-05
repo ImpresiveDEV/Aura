@@ -1,0 +1,25 @@
+﻿  Menu.cpp
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(82,74): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(82,67): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(82,60): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(83,73): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(83,66): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(83,59): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(127,86): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(127,79): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(127,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(128,85): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(128,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(128,71): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(194,86): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(194,79): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(194,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(195,85): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(195,78): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\IMPRESIVE\source\repos\FhSX\Menu.cpp(195,71): warning C4305: 'argument': truncation from 'double' to 'float'
+  Generating code
+  0 of 1690 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  FhSX.vcxproj -> C:\Users\IMPRESIVE\source\repos\FhSX\x64\Release\FhSX.exe
