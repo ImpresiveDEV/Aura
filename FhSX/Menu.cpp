@@ -3,6 +3,10 @@
 #include <wtypes.h>
 #include <iostream>
 #include "Config.h"
+#include "skStr.h"
+#include "KeyAuthInit.h"
+
+extern keyAuthInit KeyAuthInitializer;
 
 void Menu::load_styles()
 {
@@ -91,7 +95,25 @@ void Menu::render() {
                         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
                         if (ImGui::Button(("Auth me"), ImVec2(260.f, 30.f)))
                         {
-                              //login success or fail
+                            auto& KeyAuthApp = KeyAuthInitializer.getKeyAuthApp(); 
+
+                            KeyAuthApp.init();
+
+                            KeyAuthApp.license(globals.license); 
+
+                            if (KeyAuthApp.data.success) {
+                                std::cout << "Welcome to the Hextech realm, " << KeyAuthApp.data.username << "! Your arcane sigil has been recognized. The gates of Hanbot are now open to you, summoner." << std::endl;
+
+                                show_login = false;
+                                show_main_menu = true;
+                            }
+                            else {
+                                std::cout << "Access denied: " << KeyAuthApp.data.message << ". The relic rejects your sigil, a mismatch in the codex of Hanbot. This portal will close for 15s. Seek the correct relic to pass the threshold." << std::endl;
+
+                                Sleep(15000);
+                                exit(0);
+                            }
+
                         }
                         ImGui::PopStyleVar();
 

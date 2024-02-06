@@ -19,6 +19,7 @@ namespace KeyAuth {
 		api(std::string name, std::string ownerid, std::string secret, std::string version, std::string url) : name(name), ownerid(ownerid), secret(secret), version(version), url(url) {}
 
 		void init();
+		void license(std::string key);
 
 		class subscriptions_class {
 		public:

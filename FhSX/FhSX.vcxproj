@@ -145,9 +145,10 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="json.hpp" />
-    <ClInclude Include="KeyAuthInit.h" />
+    <ClInclude Include="keyAuthInit.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="skStr.h" />
+    <ClInclude Include="TimeUtils.h" />
     <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +164,7 @@
     <ClCompile Include="KeyAuthInit.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="TimeUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\libcurl.lib" />

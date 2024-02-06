@@ -15,3 +15,4 @@ extern int SelectServerGame;
 extern bool AutoInject;
 
 extern std::string State;
+extern std::string ExpireLabel;

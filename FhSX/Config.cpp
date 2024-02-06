@@ -15,3 +15,4 @@ int SelectServerGame = 1;
 bool AutoInject = true;
 
 std::string State = ("Waiting");
+std::string ExpireLabel;
