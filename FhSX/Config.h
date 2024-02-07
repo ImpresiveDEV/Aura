@@ -20,3 +20,7 @@ extern bool AutoInject;
 
 extern std::string State;
 extern std::string ExpireLabel;
+
+extern const std::string filePath;
+extern const std::string jsonUrl;
+

@@ -1,4 +1,4 @@
-#include "DxInit.h"
+﻿#include "DxInit.h"
 
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "Menu.h"
+#include "LeagueDragons.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -41,6 +42,8 @@ DxInit::DxInit()
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     ImGui::StyleColorsDark();
+
+    LeagueDragons::CheckGameVersion();
 
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX9_Init(g_pd3dDevice);

@@ -1,5 +1,7 @@
-#include "DxInit.h"
+﻿#include "DxInit.h"
 #include "KeyAuthInit.h"
+#include <iostream>
+#include "LeagueDragons.h"
 
 keyAuthInit KeyAuthInitializer;
 

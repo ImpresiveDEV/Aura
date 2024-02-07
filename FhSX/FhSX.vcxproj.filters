@@ -31,6 +31,15 @@
     <Filter Include="Loader\Authentication\Keyauth\Libs">
       <UniqueIdentifier>{8da8279c-6076-4839-a7d9-c448679b1cf9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Loader\League">
+      <UniqueIdentifier>{e8330abd-8f93-40a9-9889-4c802d8119de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader\Dependencies">
+      <UniqueIdentifier>{0fda35a9-53e6-494f-83ed-5853f7c60991}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader\Dependencies\curl">
+      <UniqueIdentifier>{04f90d85-a0d3-43d5-b738-6d6e50847908}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -87,6 +96,45 @@
     <ClInclude Include="TimeUtils.h">
       <Filter>Loader\Authentication\Keyauth\Libs</Filter>
     </ClInclude>
+    <ClInclude Include="LeagueDragons.h">
+      <Filter>Loader\League</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\curl.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\curlver.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\easy.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\header.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\mprintf.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\multi.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\options.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\stdcheaders.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\system.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\typecheck-gcc.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\urlapi.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\curl\websockets.h">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -128,6 +176,9 @@
     <ClCompile Include="KeyAuthInit.cpp">
       <Filter>Loader\Authentication\Keyauth</Filter>
     </ClCompile>
+    <ClCompile Include="LeagueDragons.cpp">
+      <Filter>Loader\League</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\libcurl.lib">
@@ -136,5 +187,13 @@
     <Library Include="Dependencies\library_x64.lib">
       <Filter>Loader\Authentication\Keyauth\Libs</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dependencies\curl\.gitignore">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </None>
+    <None Include="Dependencies\curl\Makefile.am">
+      <Filter>Loader\Dependencies\curl</Filter>
+    </None>
   </ItemGroup>
 </Project>
