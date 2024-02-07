@@ -182,6 +182,12 @@ void Menu::render() {
 
                         ImGui::Spacing();
 
+                        ImGui::Text("Bypass method");
+                        if (ImGui::Combo("##bypassMethod", &currentItem, items, itemsCount)) {
+
+                        }
+
+
                         ImGui::Checkbox(("Ready-Inject Feature"), &AutoInject);
                         if ((AutoInject && AdditionalCheck)) {
                             if (!ServerRiot && !ServerChina)

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 
 extern bool show_main_menu;
@@ -9,6 +9,10 @@ extern bool logfree;
 extern bool CheckLic;
 extern bool AdditionalCheck;
 extern bool show_login;
+
+extern int currentItem;
+extern const char* items[];
+extern const int itemsCount; // Dodaj tę deklarację
 
 extern int SelectServerGame;
 
