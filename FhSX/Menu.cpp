@@ -5,6 +5,7 @@
 #include "Config.h"
 #include "skStr.h"
 #include "KeyAuthInit.h"
+#include "TimeUtils.h"
 
 extern keyAuthInit KeyAuthInitializer;
 
@@ -103,6 +104,12 @@ void Menu::render() {
 
                             if (KeyAuthApp.data.success) {
                                 std::cout << "Welcome to the Hextech realm, " << KeyAuthApp.data.username << "! Your arcane sigil has been recognized. The gates of Hanbot are now open to you, summoner." << std::endl;
+
+
+                                for (int i = 0; i < KeyAuthApp.data.subscriptions.size(); i++) {
+                                    auto& sub = KeyAuthApp.data.subscriptions[i]; 
+                                    ExpireLabel = TimeUtils::tm_to_readable_time(TimeUtils::timet_to_tm(TimeUtils::string_to_timet(sub.expiry)));
+                                }
 
                                 show_login = false;
                                 show_main_menu = true;
@@ -204,13 +211,15 @@ void Menu::render() {
 
                         ImGui::TextDisabled("License");
 
-                        ImGui::Text(" Your license will expire on: ");
+                        ImGui::Text(skCrypt(" Your license will expire on: ").decrypt());
                         ImGui::SameLine(0, 1);
+                        ImGui::Text(ExpireLabel.data());
 
                         ImGui::Spacing();
                         ImGui::Spacing();
                         ImGui::Spacing();
-                        ImGui::TextDisabled("HANBOT State");
+                        ImGui::TextDisabled(skCrypt("HANBOT State").decrypt());
+                        ImGui::Text(State.data());
                     }
                     ImGui::EndChild();
 
@@ -225,3 +234,4 @@ void Menu::render() {
     }
 
 }
+
