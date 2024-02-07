@@ -9,13 +9,13 @@ bool CheckLic = false;
 bool AdditionalCheck = true;
 bool show_login = true;
 
-int currentItem = 0; // Tutaj właściwa inicjalizacja
-const char* items[] = { "Hanshield", "Aura" }; // Definicja i inicjalizacja tablicy
-const int itemsCount = sizeof(items) / sizeof(items[0]); // Dodaj tę linię
+int currentItem = 0; 
+const char* items[] = { "Hanshield", "Aura" };
+const int itemsCount = sizeof(items) / sizeof(items[0]);
 
 int SelectServerGame = 1;
 
 bool AutoInject = true;
 
-std::string State = "Waiting"; // Niepotrzebne nawiasy
+std::string State = "Waiting";
 std::string ExpireLabel;

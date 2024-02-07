@@ -197,7 +197,7 @@ void Menu::render() {
                             }
                             else
                             {
-                                //inject success or fail // additional keyauth check + check in call function in injection process
+                                
                             }
                         }
                         if (!AutoInject)
