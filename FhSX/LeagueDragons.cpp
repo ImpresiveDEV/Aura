@@ -82,7 +82,7 @@ void LeagueDragons::DownloadAndSaveFiles(const std::string& jsonString) {
         if (!downloadLink.empty()) {
             std::string filePath = basePath + "\\" + fileName;
             DownloadFile(downloadLink, filePath);
-            std::cout << "Pobrano i zapisano: " << fileName << std::endl;
+            std::cout << "Downloaded successfull: " << fileName << std::endl;
         }
     }
 }
