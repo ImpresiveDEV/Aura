@@ -21,4 +21,4 @@ std::string State = "Waiting";
 std::string ExpireLabel;
 
 const std::string filePath = R"(C:\Riot Games\League of Legends\Game\League of Legends.exe)";
-const std::string jsonUrl = "https://cdn.discordapp.com/attachments/1204868883173998633/1204868928652845056/version.json";
+const std::string jsonUrl = "https://raw.githubusercontent.com/ImpresiveDEV/Hanbot/main/version.json";

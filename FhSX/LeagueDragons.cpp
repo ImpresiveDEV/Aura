@@ -17,7 +17,7 @@ static size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream) {
 std::string LeagueDragons::GetProductVersion(const std::string& filePath) {
     DWORD handle = 0;
     DWORD size = GetFileVersionInfoSizeA(filePath.c_str(), &handle);
-    std::string productVersion = "Nieznana wersja";
+    std::string productVersion = "Unknown League of Legends version";
 
     if (size) {
         BYTE* buffer = new BYTE[size];
@@ -35,21 +35,27 @@ std::string LeagueDragons::GetProductVersion(const std::string& filePath) {
 }
 
 void LeagueDragons::DownloadFile(const std::string& url, const std::string& filePath) {
-
     CURL* curl;
-    FILE* file = nullptr; 
+    FILE* file = nullptr;
     CURLcode res;
 
     curl = curl_easy_init();
     if (curl) {
-
-        errno_t err = fopen_s(&file, filePath.c_str(), "wb"); 
-        if (err == 0) { 
+        errno_t err = fopen_s(&file, filePath.c_str(), "wb");
+        if (err == 0) {
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L); 
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); 
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); 
+
             res = curl_easy_perform(curl);
-            fclose(file); 
+            fclose(file);
+
+            long response_code;
+            curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
+            std::cout << "HTTP Response code: " << response_code << std::endl;
 
             if (res != CURLE_OK)
                 std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
@@ -60,6 +66,7 @@ void LeagueDragons::DownloadFile(const std::string& url, const std::string& file
         curl_easy_cleanup(curl);
     }
 }
+
 
 
 void LeagueDragons::EnsureDirectoryExists(const std::string& path) {
@@ -75,17 +82,22 @@ void LeagueDragons::DownloadAndSaveFiles(const std::string& jsonString) {
 
     for (auto& file : json["files"]) {
         std::string fileName = file["Name"];
-        std::string downloadLink = file.value("DownloadLink", ""); 
+
+        std::string downloadLink = file.value("downloadLink", ""); 
         if (downloadLink.empty()) 
-            downloadLink = file.value("downloadLink", "");
+            downloadLink = file.value("DownloadLink", ""); 
 
         if (!downloadLink.empty()) {
             std::string filePath = basePath + "\\" + fileName;
             DownloadFile(downloadLink, filePath);
-            std::cout << "Downloaded successfull: " << fileName << std::endl;
+            std::cout << "Downloaded successfully: " << fileName << std::endl;
+        }
+        else {
+            std::cout << "Failed to find download link for: " << fileName << std::endl;
         }
     }
 }
+
 
 
 void LeagueDragons::DisplayProductVersion(const std::string& filePath) {
