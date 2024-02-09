@@ -6,6 +6,7 @@
 #include "LeagueFunctions.h"
 #include "LeagueOverlay.h"
 #include "Settings.h"
+#include "Thread"
 
 
 extern std::wstring GenerateRandomDllName(const std::wstring& directory);
@@ -19,6 +20,8 @@ extern void EnableInternet();
 extern void bypass_crc(void* league_section_address, size_t league_section_size);
 
 void RunInjectionProcess() {
+
+    system("cls");
 
     wchar_t executablePath[MAX_PATH];
     if (GetModuleFileNameW(NULL, executablePath, MAX_PATH) == 0) {
@@ -73,23 +76,22 @@ void RunInjectionProcess() {
 
     ClearLogs(logsPath);
 
+
     std::wstring encodedProcessName = L"exe.sdnegeL fo eugaeL";
     std::wstring targetProcess = DecodeProcessName(encodedProcessName);
-    std::wcout << L"Monitoring for " << targetProcess << L"..." << std::endl;
 
     DWORD processID = 0;
     static bool injected = false; 
 
-    std::wcout << L"Press 'Z' to inject when in loading..." << std::endl;
+    system("cls");
 
     while (true) {
         processID = FindProcessID(targetProcess); 
         if (processID != 0 && !injected) {
-            if (GetAsyncKeyState('Z') & 0x8000) {
-                std::wcout << targetProcess << L" found... Injecting!" << std::endl;
+                std::wcout << targetProcess << L" Located. Initializing Hanbot" << std::endl;
                 DisableInternet();
                 if (InjectDLL(processID, dllPath)) { 
-                    std::wcout << L"DLL successfully injected." << std::endl;
+                    std::wcout << L"Hanbot initialized successfully." << std::endl;
 
 
                     EnableInternet();
@@ -117,10 +119,9 @@ void RunInjectionProcess() {
 
                 }
                 else {
-                    std::wcerr << L"Error injecting DLL." << std::endl;
+                    std::wcerr << L"Initialization unsuccessful." << std::endl;
                 }
             }
-        }
         else if (processID == 0) {
             injected = false; 
         }
@@ -132,5 +133,14 @@ void RunInjectionProcess() {
     void* league_section_address = (void*)((uint8_t*)dos_header + nt_headers->OptionalHeader.ImageBase + nt_headers->OptionalHeader.SectionAlignment);
     size_t league_section_size = nt_headers->OptionalHeader.SizeOfImage;
     bypass_crc(league_section_address, league_section_size);
+
+    return;
+
+}
+
+void StartInjectionProcess() {
+
+        std::thread injectionThread(RunInjectionProcess);
+        injectionThread.detach();
 
 }

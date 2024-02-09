@@ -2,4 +2,4 @@
 
 #include <string>
 
-void RunInjectionProcess();
+void StartInjectionProcess();

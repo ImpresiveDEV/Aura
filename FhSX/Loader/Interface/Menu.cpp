@@ -209,7 +209,9 @@ void Menu::render() {
                             }
                             else if (currentItem == 1) { 
 
-                                RunInjectionProcess();
+                                State = "Aura Loaded - Waiting for League of Legends";
+                                AutoInject = false;
+                                StartInjectionProcess(); // Uruchom proces w nowym wątku
 
                             }
                         }
