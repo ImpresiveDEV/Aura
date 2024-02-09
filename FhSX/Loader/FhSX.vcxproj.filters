@@ -81,9 +81,6 @@
     <ClInclude Include="Config.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="skStr.h">
-      <Filter>Loader\Authentication\Keyauth\Libs</Filter>
-    </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>Loader\Authentication\Keyauth\Libs</Filter>
     </ClInclude>
@@ -162,8 +159,8 @@
     <ClInclude Include="AuraModule.h">
       <Filter>Loader\Aura</Filter>
     </ClInclude>
-    <ClInclude Include="xorstr.h">
-      <Filter>Loader\Dependencies</Filter>
+    <ClInclude Include="skStr.h">
+      <Filter>Loader\Authentication\Keyauth\Libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@
 #include <curl/curl.h>
 #include "json.hpp"
 #include "Config.h"
-#include "xorstr.h"
+
 
 namespace fs = std::filesystem;
 
@@ -18,14 +18,14 @@ static size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream) {
 std::string LeagueDragons::GetProductVersion(const std::string& filePath) {
     DWORD handle = 0;
     DWORD size = GetFileVersionInfoSizeA(filePath.c_str(), &handle);
-    std::string productVersion = xorstr("Unknown League of Legends version").crypt_get();
+    std::string productVersion = "Unknown League of Legends version";
 
     if (size) {
         BYTE* buffer = new BYTE[size];
         if (GetFileVersionInfoA(filePath.c_str(), handle, size, buffer)) {
             UINT size = 0;
             LPVOID lpBuffer = nullptr;
-            if (VerQueryValueA(buffer, xorstr("\\StringFileInfo\\040904b0\\ProductVersion").crypt_get(), &lpBuffer, &size)) {
+            if (VerQueryValueA(buffer, "\\StringFileInfo\\040904b0\\ProductVersion", &lpBuffer, &size)) {
                 productVersion = std::string((char*)lpBuffer);
             }
         }
@@ -56,13 +56,13 @@ void LeagueDragons::DownloadFile(const std::string& url, const std::string& file
 
             long response_code;
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
-            std::cout << xorstr("HTTP Response code: ").crypt_get() << response_code << std::endl;
+            std::cout << "HTTP Response code: " << response_code << std::endl;
 
             if (res != CURLE_OK)
-                std::cerr << xorstr("curl_easy_perform() failed: ").crypt_get() << curl_easy_strerror(res) << std::endl;
+                std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
         }
         else {
-            std::cerr << xorstr("Failed to open file: ").crypt_get() << filePath << std::endl;
+            std::cerr << "Failed to open file: " << filePath << std::endl;
         }
         curl_easy_cleanup(curl);
     }
@@ -78,23 +78,23 @@ void LeagueDragons::EnsureDirectoryExists(const std::string& path) {
 
 void LeagueDragons::DownloadAndSaveFiles(const std::string& jsonString) {
     auto json = nlohmann::json::parse(jsonString);
-    std::string basePath = xorstr("C:\\Hanbot").crypt_get();
+    std::string basePath = "C:\\Hanbot";
     EnsureDirectoryExists(basePath);
 
-    for (auto& file : json[xorstr("files").crypt_get()]) {
-        std::string fileName = file[xorstr("Name").crypt_get()];
+    for (auto& file : json["files"]) {
+        std::string fileName = file["Name"];
 
-        std::string downloadLink = file.value(xorstr("downloadLink").crypt_get(), xorstr("").crypt_get());
+        std::string downloadLink = file.value("downloadLink", "");
         if (downloadLink.empty()) 
-            downloadLink = file.value(xorstr("DownloadLink").crypt_get(), xorstr("").crypt_get());
+            downloadLink = file.value("DownloadLink", "");
 
         if (!downloadLink.empty()) {
-            std::string filePath = basePath + xorstr("\\").crypt_get() + fileName;
+            std::string filePath = basePath + "\\" + fileName;
             DownloadFile(downloadLink, filePath);
-            std::cout << xorstr("Downloaded successfully: ").crypt_get() << fileName << std::endl;
+            std::cout << "Downloaded successfully: " << fileName << std::endl;
         }
         else {
-            std::cout << xorstr("Failed to find download link for: ").crypt_get() << fileName << std::endl;
+            std::cout << "Failed to find download link for: " << fileName << std::endl;
         }
     }
 }
@@ -123,7 +123,7 @@ std::string LeagueDragons::DownloadJson(const std::string& url) {
         curl_easy_cleanup(curl);
 
         if (res != CURLE_OK) {
-            std::cerr << xorstr("curl_easy_perform() failed: ").crypt_get() << curl_easy_strerror(res) << std::endl;
+            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
             return "";
         }
     }
@@ -132,7 +132,7 @@ std::string LeagueDragons::DownloadJson(const std::string& url) {
 
 std::string LeagueDragons::GetGameVersionFromJson(const std::string& jsonString) {
     auto json = nlohmann::json::parse(jsonString);
-    std::string gameVersion = json[xorstr("GameVersion").crypt_get()];
+    std::string gameVersion = json["GameVersion"];
     return gameVersion;
 }
 
@@ -143,12 +143,12 @@ void LeagueDragons::CheckGameVersion() {
     std::string gameVersionFromFile = GetProductVersion(filePath);
 
     if (gameVersionFromJson == gameVersionFromFile) {
-        std::cout << xorstr("Hanbot Core is up to date! The loaded version is: ").crypt_get() << gameVersionFromFile << std::endl;
+        std::cout << "Hanbot Core is up to date! The loaded version is: " << gameVersionFromFile << std::endl;
 
         DownloadAndSaveFiles(jsonContent); 
     }
     else {
-        std::cout << xorstr("Hanbot Core is Outdated. Wait for update Nexus Core summoner. The client now will close for 15 sec. Hanbot core version is: ").crypt_get() << gameVersionFromJson << xorstr(", League of Legends version is: ").crypt_get() << gameVersionFromFile << std::endl;
+        std::cout << "Hanbot Core is Outdated. Wait for update Nexus Core summoner. The client now will close for 15 sec. Hanbot core version is: " << gameVersionFromJson << ", League of Legends version is: " << gameVersionFromFile << std::endl;
         Sleep(15000);
         exit(0);
     }

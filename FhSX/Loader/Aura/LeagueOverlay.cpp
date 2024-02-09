@@ -1,7 +1,7 @@
 ﻿#include "LeagueOverlay.h"
 #include <tlhelp32.h>
 #include <iostream>
-#include "xorstr.h"
+
 
 DWORD FindProcessID(const std::wstring& processName) {
     PROCESSENTRY32W processInfo;
@@ -75,7 +75,7 @@ LPVOID CustomAllocateMemory(HANDLE process, LPVOID lpAddress, SIZE_T dwSize, DWO
 BOOL CustomFreeMemory(HANDLE process, LPVOID lpAddress, SIZE_T dwSize, DWORD dwFreeType) {
     BOOL result = VirtualFreeEx(process, lpAddress, dwSize, dwFreeType);
     if (!result) {
-        std::wcerr << xorstr(L"Failed to free memory in target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to free memory in target process." << std::endl;
     }
     return result;
 }
@@ -83,20 +83,20 @@ BOOL CustomFreeMemory(HANDLE process, LPVOID lpAddress, SIZE_T dwSize, DWORD dwF
 BOOL InjectDLL(DWORD processID, const std::wstring& dllPath) {
     HANDLE processHandle = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD, FALSE, processID);
     if (processHandle == NULL) {
-        std::wcerr << xorstr(L"Failed to open target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to open target process." << std::endl;
         return FALSE;
     }
 
     size_t pathSize = (dllPath.size() + 1) * sizeof(wchar_t);
     LPVOID allocatedMemory = CustomAllocateMemory(processHandle, NULL, pathSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     if (allocatedMemory == NULL) {
-        std::wcerr << xorstr(L"Failed to allocate memory in target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to allocate memory in target process." << std::endl;
         CloseHandle(processHandle);
         return FALSE;
     }
 
     if (!WriteProcessMemory(processHandle, allocatedMemory, dllPath.c_str(), pathSize, NULL)) {
-        std::wcerr << xorstr(L"Failed to write process memory.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to write process memory." << std::endl;
         CustomFreeMemory(processHandle, allocatedMemory, 0, MEM_RELEASE);
         CloseHandle(processHandle);
         return FALSE;
@@ -104,7 +104,7 @@ BOOL InjectDLL(DWORD processID, const std::wstring& dllPath) {
 
     LPVOID loadLibraryAddr = (LPVOID)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "LoadLibraryW");
     if (loadLibraryAddr == NULL) {
-        std::wcerr << xorstr(L"Failed to get address of LoadLibraryW.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to get address of LoadLibraryW." << std::endl;
         CustomFreeMemory(processHandle, allocatedMemory, 0, MEM_RELEASE);
         CloseHandle(processHandle);
         return FALSE;
@@ -112,7 +112,7 @@ BOOL InjectDLL(DWORD processID, const std::wstring& dllPath) {
 
     std::vector<DWORD> threadIDs = GetThreadIDs(processID);
     if (threadIDs.empty()) {
-        std::wcerr << xorstr(L"Failed to find any threads in target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to find any threads in target process." << std::endl;
         CustomFreeMemory(processHandle, allocatedMemory, 0, MEM_RELEASE);
         CloseHandle(processHandle);
         return FALSE;
@@ -129,7 +129,7 @@ BOOL InjectDLL(DWORD processID, const std::wstring& dllPath) {
     }
 
     if (!threadID) {
-        std::wcerr << xorstr(L"Failed to set context for any thread in target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to set context for any thread in target process." << std::endl;
         CustomFreeMemory(processHandle, allocatedMemory, 0, MEM_RELEASE);
         CloseHandle(processHandle);
         return FALSE;
@@ -137,7 +137,7 @@ BOOL InjectDLL(DWORD processID, const std::wstring& dllPath) {
 
     HANDLE remoteThread = CreateRemoteThread(processHandle, NULL, 0, (LPTHREAD_START_ROUTINE)loadLibraryAddr, allocatedMemory, 0, NULL);
     if (remoteThread == NULL) {
-        std::wcerr << xorstr(L"Failed to create remote thread in target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to create remote thread in target process." << std::endl;
         CustomFreeMemory(processHandle, allocatedMemory, 0, MEM_RELEASE);
         CloseHandle(processHandle);
         return FALSE;
@@ -154,26 +154,26 @@ BOOL InjectDLL(DWORD processID, const std::wstring& dllPath) {
 BOOL OverrideFunction(DWORD processID, LPVOID targetAddress, LPVOID newFunction) {
     HANDLE process = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE, FALSE, processID);
     if (process == NULL) {
-        std::wcerr << xorstr(L"Failed to open target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to open target process." << std::endl;
         return FALSE;
     }
 
     LPVOID functionAddress = VirtualAllocEx(process, NULL, sizeof(newFunction), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
     if (functionAddress == NULL) {
-        std::wcerr << xorstr(L"Failed to allocate memory in target process.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to allocate memory in target process." << std::endl;
         CloseHandle(process);
         return FALSE;
     }
 
     if (!WriteProcessMemory(process, functionAddress, newFunction, sizeof(newFunction), NULL)) {
-        std::wcerr << xorstr(L"Failed to write process memory.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to write process memory." << std::endl;
         VirtualFreeEx(process, functionAddress, 0, MEM_RELEASE);
         CloseHandle(process);
         return FALSE;
     }
 
     if (!WriteProcessMemory(process, targetAddress, &functionAddress, sizeof(LPVOID), NULL)) {
-        std::wcerr << xorstr(L"Failed to override function.").crypt_get() << std::endl;
+        std::wcerr << L"Failed to override function." << std::endl;
         VirtualFreeEx(process, functionAddress, 0, MEM_RELEASE);
         CloseHandle(process);
         return FALSE;

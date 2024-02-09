@@ -9,7 +9,7 @@
 #include <iostream>
 #include "Menu.h"
 #include "LeagueDragons.h"
-#include "xorstr.h"
+
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -47,7 +47,7 @@ DxInit::DxInit()
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX9_Init(g_pd3dDevice);
 
-    ImFont* mdFont = io.Fonts->AddFontFromFileTTF((xorstr("C:\\Windows\\Fonts\\Verdana.ttf").crypt_get()), 12.f);
+    ImFont* mdFont = io.Fonts->AddFontFromFileTTF(("C:\\Windows\\Fonts\\Verdana.ttf"), 12.f);
 }
 
 DxInit::~DxInit()

@@ -171,7 +171,6 @@
     <ClInclude Include="Utility.h" />
     <ClInclude Include="utils.hpp" />
     <ClInclude Include="Vanguard.h" />
-    <ClInclude Include="xorstr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AuraModule.cpp" />

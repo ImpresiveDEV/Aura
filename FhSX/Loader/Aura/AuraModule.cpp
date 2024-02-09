@@ -6,7 +6,7 @@
 #include "LeagueFunctions.h"
 #include "LeagueOverlay.h"
 #include "Settings.h"
-#include "xorstr.h"
+
 
 extern std::wstring GenerateRandomDllName(const std::wstring& directory);
 extern std::wstring DecodeProcessName(const std::wstring& encodedName);
@@ -22,7 +22,7 @@ void RunInjectionProcess() {
 
     wchar_t executablePath[MAX_PATH];
     if (GetModuleFileNameW(NULL, executablePath, MAX_PATH) == 0) {
-        std::wcerr << xorstr(L"Error obtaining the executable path.").crypt_get() << std::endl;
+        std::wcerr << L"Error obtaining the executable path." << std::endl;
         return;
     }
 
@@ -38,71 +38,71 @@ void RunInjectionProcess() {
 
     std::wstring logsPath, dllPath;
     if (!LoadUserSettings(logsPath, dllPath)) {
-        std::wcerr << xorstr(L"Could not load user settings.").crypt_get() << std::endl;
+        std::wcerr << L"Could not load user settings." << std::endl;
         return;
     }
 
     if (std::filesystem::exists(dllPath)) {
-        std::wstring newDllPath = GenerateRandomDllName(xorstr(L"C:\\Hanbot\\").crypt_get());
+        std::wstring newDllPath = GenerateRandomDllName(L"C:\\Hanbot\\");
         try {
             std::filesystem::rename(dllPath, newDllPath);
             dllPath = newDllPath;
             SaveUserSettings(logsPath, dllPath);
-            std::wcout << xorstr(L"DLL renamed and settings updated: ").crypt_get() << dllPath << std::endl;
+            std::wcout << L"DLL renamed and settings updated: " << dllPath << std::endl;
         }
         catch (const std::filesystem::filesystem_error& e) {
-            std::wcerr << xorstr(L"Error renaming DLL: ").crypt_get() << e.what() << std::endl;
+            std::wcerr << L"Error renaming DLL: " << e.what() << std::endl;
             return;
         }
     }
     else {
-        std::wcerr << xorstr(L"DLL path from settings does not exist. Checking for default DLL.").crypt_get() << std::endl;
-        std::wstring defaultDllPath = xorstr(L"C:\\Hanbot\\core.dll").crypt_get();
+        std::wcerr << L"DLL path from settings does not exist. Checking for default DLL." << std::endl;
+        std::wstring defaultDllPath = L"C:\\Hanbot\\core.dll";
         if (std::filesystem::exists(defaultDllPath)) {
-            std::wstring newDllPath = GenerateRandomDllName(xorstr(L"C:\\Hanbot\\").crypt_get());
+            std::wstring newDllPath = GenerateRandomDllName(L"C:\\Hanbot\\");
             std::filesystem::rename(defaultDllPath, newDllPath);
             dllPath = newDllPath;
             SaveUserSettings(logsPath, dllPath);
-            std::wcout << xorstr(L"Default DLL renamed and settings updated: ").crypt_get() << dllPath << std::endl;
+            std::wcout << L"Default DLL renamed and settings updated: " << dllPath << std::endl;
         }
         else {
-            std::wcerr << xorstr(L"Default DLL also does not exist. Cannot proceed.").crypt_get() << std::endl;
+            std::wcerr << L"Default DLL also does not exist. Cannot proceed." << std::endl;
             return;
         }
     }
 
     ClearLogs(logsPath);
 
-    std::wstring encodedProcessName = xorstr(L"exe.sdnegeL fo eugaeL").crypt_get();
+    std::wstring encodedProcessName = L"exe.sdnegeL fo eugaeL";
     std::wstring targetProcess = DecodeProcessName(encodedProcessName);
-    std::wcout << xorstr(L"Monitoring for ").crypt_get() << targetProcess << xorstr(L"...").crypt_get() << std::endl;
+    std::wcout << L"Monitoring for " << targetProcess << L"..." << std::endl;
 
     DWORD processID = 0;
     static bool injected = false; 
 
-    std::wcout << xorstr(L"Press 'Z' to inject when in loading...").crypt_get() << std::endl;
+    std::wcout << L"Press 'Z' to inject when in loading..." << std::endl;
 
     while (true) {
         processID = FindProcessID(targetProcess); 
         if (processID != 0 && !injected) {
             if (GetAsyncKeyState('Z') & 0x8000) {
-                std::wcout << targetProcess << xorstr(L" found... Injecting!").crypt_get() << std::endl;
+                std::wcout << targetProcess << L" found... Injecting!" << std::endl;
                 DisableInternet();
                 if (InjectDLL(processID, dllPath)) { 
-                    std::wcout << xorstr(L"DLL successfully injected.").crypt_get() << std::endl;
+                    std::wcout << L"DLL successfully injected." << std::endl;
 
 
                     EnableInternet();
 
                     injected = true; 
 
-                    LPVOID fn_get_key_state = (LPVOID)GetProcAddress(GetModuleHandle(xorstr(L"stub.dll").crypt_get()), xorstr("GetAsyncKeyState").crypt_get());
-                    LPVOID fn_issue_order = (LPVOID)GetProcAddress(GetModuleHandle(xorstr(L"stub.dll").crypt_get()), xorstr("IssueOrder").crypt_get());
-                    LPVOID fn_cast_spell = (LPVOID)GetProcAddress(GetModuleHandle(xorstr(L"stub.dll").crypt_get()), xorstr("SendSpellCastPacket").crypt_get());
-                    LPVOID fn_update_spell = (LPVOID)GetProcAddress(GetModuleHandle(xorstr(L"stub.dll").crypt_get()), xorstr("UpdateChargedSpell").crypt_get());
+                    LPVOID fn_get_key_state = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "GetAsyncKeyState");
+                    LPVOID fn_issue_order = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "IssueOrder");
+                    LPVOID fn_cast_spell = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "SendSpellCastPacket");
+                    LPVOID fn_update_spell = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "UpdateChargedSpell");
 
                     if (!fn_get_key_state || !fn_issue_order || !fn_cast_spell || !fn_update_spell) {
-                        std::wcerr << xorstr(L" ").crypt_get() << std::endl;
+                        std::wcerr << L" " << std::endl;
 
                     }
                     else {
@@ -112,12 +112,12 @@ void RunInjectionProcess() {
                         OverrideFunction(processID, fn_cast_spell, (LPVOID)SendSpellCastPacket);
                         OverrideFunction(processID, fn_update_spell, (LPVOID)UpdateChargedSpell);
 
-                        std::wcout << xorstr(L"Bot functions overwritten successfully.").crypt_get() << std::endl;
+                        std::wcout << L"Bot functions overwritten successfully." << std::endl;
                     }
 
                 }
                 else {
-                    std::wcerr << xorstr(L"Error injecting DLL.").crypt_get() << std::endl;
+                    std::wcerr << L"Error injecting DLL." << std::endl;
                 }
             }
         }

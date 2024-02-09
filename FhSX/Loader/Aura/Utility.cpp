@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Windows.h"
 #include <filesystem>
-#include "xorstr.h"
+
 
 std::wstring GenerateRandomDllName(const std::wstring& directory) {
     std::random_device rd;
@@ -13,9 +13,9 @@ std::wstring GenerateRandomDllName(const std::wstring& directory) {
 
     std::wstring hexStr;
     for (int i = 0; i < 8; ++i) {
-        hexStr += xorstr(L"0123456789ABCDEF").crypt_get()[dis(gen)];
+        hexStr += L"0123456789ABCDEF"[dis(gen)];
     }
-    return directory + xorstr(L"\\").crypt_get() + hexStr + xorstr(L".dll").crypt_get();
+    return directory + L"\\" + hexStr + L".dll";
 }
 
 std::wstring DecodeProcessName(const std::wstring& encodedName) {
@@ -25,10 +25,10 @@ std::wstring DecodeProcessName(const std::wstring& encodedName) {
 }
 
 void ClearLogs(const std::wstring& logsPath) {
-    std::wcout << xorstr(L"Path received: ").crypt_get() << logsPath << std::endl;
+    std::wcout << L"Path received: " << logsPath << std::endl;
 
     if (!std::filesystem::exists(logsPath)) {
-        std::wcout << xorstr(L"Path not found: ").crypt_get() << logsPath << std::endl;
+        std::wcout << L"Path not found: " << logsPath << std::endl;
         return;
     }
 
@@ -41,9 +41,9 @@ void ClearLogs(const std::wstring& logsPath) {
 
             }
         }
-        std::wcout << xorstr(L"Logs deleted successfully.").crypt_get() << std::endl;
+        std::wcout << L"Logs deleted successfully." << std::endl;
     }
     catch (const std::filesystem::filesystem_error& e) {
-        std::wcerr << xorstr(L"Error to access the logs: ").crypt_get() << e.what() << std::endl;
+        std::wcerr << L"Error to access the logs: " << e.what() << std::endl;
     }
 }
