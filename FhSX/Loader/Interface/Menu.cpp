@@ -43,7 +43,7 @@ void Menu::load_styles()
 
 class initWindow {
 public:
-    const char* window_title = xorstr(" ").crypt_get();
+    const char* window_title = " ";
     ImVec2 window_size{ 740, 460 };
 
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
@@ -78,7 +78,7 @@ void Menu::render() {
                 if (show_login) {
 
                     ImGui::SetCursorPos(ImVec2(222, 83));
-                    ImGui::BeginChild((xorstr("##Authentication").crypt_get()), ImVec2(300, 276), true);
+                    ImGui::BeginChild(("##Authentication"), ImVec2(300, 276), true);
                     {
                         ImGui::SetCursorPos(ImVec2(118, 20));
                         ImGui::TextDisabled(xorstr("HANBOT").crypt_get());

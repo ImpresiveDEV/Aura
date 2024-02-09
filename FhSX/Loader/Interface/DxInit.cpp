@@ -19,9 +19,9 @@ static D3DPRESENT_PARAMETERS    g_d3dpp = {};
 
 DxInit::DxInit()
 {
-    wc = { sizeof(WNDCLASSEX), CS_CLASSDC, DxInit::WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, xorstr(_T("Hanbot")).crypt_get(), NULL };
+    wc = { sizeof(WNDCLASSEX), CS_CLASSDC, DxInit::WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("Hanbot"), NULL };
     ::RegisterClassEx(&wc);
-    hwnd = ::CreateWindow(wc.lpszClassName, xorstr(_T("Dx9")).crypt_get(), WS_OVERLAPPEDWINDOW, 0, 0, 50, 50, NULL, NULL, wc.hInstance, NULL);
+    hwnd = ::CreateWindow(wc.lpszClassName, _T("Dx9"), WS_OVERLAPPEDWINDOW, 0, 0, 50, 50, NULL, NULL, wc.hInstance, NULL);
 
     ::ShowWindow(::GetConsoleWindow(), SW_SHOW);
 
