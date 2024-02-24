@@ -7,6 +7,9 @@
 #include "KeyAuthInit.h"
 #include "TimeUtils.h"
 #include "AuraModule.h"
+#include <imgui_internal.h>
+#include "CheckAuth.h"
+using namespace std;
 
 extern keyAuthInit KeyAuthInitializer;
 
@@ -93,6 +96,18 @@ void Menu::render() {
                         }
                         ImGui::PopItemWidth();
 
+                        std::string licenseFilePath = skCrypt("C:\\Hanbot.lic").decrypt();
+                        std::ifstream licenseFile(licenseFilePath);
+                        if (licenseFile.is_open()) {
+                            std::string licenseKey;
+                            std::getline(licenseFile, licenseKey); 
+                            licenseFile.close();
+                            strncpy_s(globals.license, sizeof(globals.license), licenseKey.c_str(), _TRUNCATE);
+                        }
+                        else {
+                            std::cout << "Could not open license file." << std::endl;
+                        }
+
                         ImGui::SetCursorPos(ImVec2(22, 230));
                         ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.f);
                         if (ImGui::Button(("Auth me"), ImVec2(260.f, 30.f)))
@@ -104,7 +119,6 @@ void Menu::render() {
                             KeyAuthApp.license(globals.license); 
 
                             if (KeyAuthApp.data.success) {
-                                std::cout << "Welcome to the Hextech realm, " << KeyAuthApp.data.username << "! Your arcane sigil has been recognized. The gates of Hanbot are now open to you, summoner." << std::endl;
 
 
                                 for (int i = 0; i < KeyAuthApp.data.subscriptions.size(); i++) {
@@ -112,16 +126,24 @@ void Menu::render() {
                                     ExpireLabel = TimeUtils::tm_to_readable_time(TimeUtils::timet_to_tm(TimeUtils::string_to_timet(sub.expiry)));
                                 }
 
+                                ofstream LicenseFile(skCrypt("C:\\Hanbot.lic").decrypt());
+                                if (LicenseFile.is_open()) {
+                                    LicenseFile << globals.license;
+                                    LicenseFile.close();
+                                }
+                                else {
+                                    std::cerr << skCrypt("Code 100").decrypt() << std::endl;
+                                }
+
                                 show_login = false;
                                 show_main_menu = true;
                             }
                             else {
-                                std::cout << "Access denied: " << KeyAuthApp.data.message << ". The relic rejects your sigil, a mismatch in the codex of Hanbot. This portal will close for 15s. Seek the correct relic to pass the threshold." << std::endl;
+                                std::cout << "This license is not authorized." << std::endl;
 
-                                Sleep(15000);
+                                Sleep(3000);
                                 exit(0);
                             }
-
                         }
                         ImGui::PopStyleVar();
 
@@ -145,34 +167,11 @@ void Menu::render() {
 
                         ImGui::TextDisabled("Core Function");
 
-                        ImGui::Text("Select region League of Legends Server ");
-                        ImGui::Text(" ");
-
-                        if (ImGui::RadioButton(("Riot Game Server"), SelectServerGame == 1))
-                        {
-                            SelectServerGame = 1;
-                            ServerChina = false;
-                            ServerRiot = true;
-                        }
-
-                        if (ImGui::RadioButton(("China Server"), SelectServerGame == 2))
-                        {
-                            ServerChina = true;
-                            ServerRiot = false;
-                            SelectServerGame = 2;
-                        }
-                        if (ImGui::RadioButton(("Japan Server"), SelectServerGame == 3))
-                        {
-                            ServerChina = false;
-                            ServerRiot = true;
-                            SelectServerGame = 3;
-                        }
-                        if (ImGui::RadioButton(("Korea Server"), SelectServerGame == 4))
-                        {
-                            ServerChina = false;
-                            ServerRiot = true;
-                            SelectServerGame = 4;
-                        }
+                        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                        ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
+                        ImGui::RadioButton("Riot Game Server", &SelectServerGame, 1); 
+                        ImGui::PopItemFlag();
+                        ImGui::PopStyleVar();
 
                         ImGui::Spacing();
                         ImGui::Spacing();
@@ -186,40 +185,27 @@ void Menu::render() {
                         ImGui::Text("Module");
                         if (ImGui::Combo("##Module", &currentItem, items, itemsCount)) {
 
-                            if (currentItem == 0) {
-                                State = "Please use Aura instead - hanshield is in development stage";
-                                AutoInject = false; 
-                            }
+                            switch (currentItem) {
 
-                            else if (currentItem == 1) {
+                            case 0: 
+                                State = "Please use Aura instead - Hanshield is in Maintance";
+                                break;
+
+                            case 1:
+
                                 State = "Aura Loaded - Waiting for League of Legends";
-                                AutoInject = true;
-                            }
-                            else if (currentItem == 2) {
+                                void VerifyLicense();
+                                StartInjectionProcess();
+                                break;
+
+                            case 2: 
                                 State = "Select module to load before run League of Legends";
-                                AutoInject = false; 
-                            }
-                        }
-
-                        ImGui::Checkbox("Ready-Inject Feature", &AutoInject);
-                        if (AutoInject && AdditionalCheck) {
-                            if (!ServerRiot && !ServerChina) {
-                                State = "Please Select Server";
-                                AutoInject = false;
-                            }
-                            else if (currentItem == 1) { 
-
-                                State = "Aura Loaded - Waiting for League of Legends";
-                                AutoInject = false;
-                                StartInjectionProcess(); // Uruchom proces w nowym wątku
+                                break;
 
                             }
                         }
-                        if (!AutoInject) {
-                            AdditionalCheck = true;
-                        }
-
                     }
+
                     ImGui::EndChild();
 
                     ImGui::SetCursorPos(ImVec2(400, 65));
@@ -238,7 +224,7 @@ void Menu::render() {
                         ImGui::Spacing();
                         ImGui::Spacing();
                         ImGui::Spacing();
-                        ImGui::TextDisabled("HANBOT State");
+                        ImGui::TextDisabled(" Loader state: ");
                         ImGui::Text(State.data());
                     }
                     ImGui::EndChild();
