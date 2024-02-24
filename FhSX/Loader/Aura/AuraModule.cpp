@@ -7,6 +7,11 @@
 #include "LeagueOverlay.h"
 #include "Settings.h"
 #include "Thread"
+#include <iostream>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
+#include "CheckAuth.h"
 
 
 extern std::wstring GenerateRandomDllName(const std::wstring& directory);
@@ -19,6 +24,28 @@ extern void DisableInternet();
 extern void EnableInternet();
 extern void bypass_crc(void* league_section_address, size_t league_section_size);
 
+std::wstring GetCurrentDateTimeFormatted() {
+    auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+
+    std::tm tmSnapshot;
+    localtime_s(&tmSnapshot, &in_time_t); 
+
+    std::wstringstream ss;
+    ss << std::put_time(&tmSnapshot, L"%y::%m::%d :: %H::%M::%S");
+    return ss.str();
+}
+
+void PrintWithDateTimeAndColor(const std::wstring& message, bool isError = false) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+    std::wcout << GetCurrentDateTimeFormatted() << L" ";
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), isError ? 12 : 15);
+    std::wcout << message << std::endl;
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+}
+
 void RunInjectionProcess() {
 
     system("cls");
@@ -26,6 +53,7 @@ void RunInjectionProcess() {
     wchar_t executablePath[MAX_PATH];
     if (GetModuleFileNameW(NULL, executablePath, MAX_PATH) == 0) {
         std::wcerr << L"Error obtaining the executable path." << std::endl;
+        Sleep(3000);
         return;
     }
 
@@ -42,6 +70,7 @@ void RunInjectionProcess() {
     std::wstring logsPath, dllPath;
     if (!LoadUserSettings(logsPath, dllPath)) {
         std::wcerr << L"Could not load user settings." << std::endl;
+        Sleep(3000);
         return;
     }
 
@@ -51,10 +80,10 @@ void RunInjectionProcess() {
             std::filesystem::rename(dllPath, newDllPath);
             dllPath = newDllPath;
             SaveUserSettings(logsPath, dllPath);
-            std::wcout << L"DLL renamed and settings updated: " << dllPath << std::endl;
         }
         catch (const std::filesystem::filesystem_error& e) {
             std::wcerr << L"Error renaming DLL: " << e.what() << std::endl;
+            Sleep(3000);
             return;
         }
     }
@@ -66,10 +95,10 @@ void RunInjectionProcess() {
             std::filesystem::rename(defaultDllPath, newDllPath);
             dllPath = newDllPath;
             SaveUserSettings(logsPath, dllPath);
-            std::wcout << L"Default DLL renamed and settings updated: " << dllPath << std::endl;
         }
         else {
             std::wcerr << L"Default DLL also does not exist. Cannot proceed." << std::endl;
+            Sleep(3000);
             return;
         }
     }
@@ -85,45 +114,44 @@ void RunInjectionProcess() {
 
     system("cls");
 
+    void VerifyLicense();
     while (true) {
-        processID = FindProcessID(targetProcess); 
+        processID = FindProcessID(targetProcess);
         if (processID != 0 && !injected) {
-                std::wcout << targetProcess << L" Located. Initializing Hanbot" << std::endl;
-                DisableInternet();
-                if (InjectDLL(processID, dllPath)) { 
-                    std::wcout << L"Hanbot initialized successfully." << std::endl;
+            PrintWithDateTimeAndColor(targetProcess + L" Located. Initializing Hanbot");
+            void VerifyLicense();
+            DisableInternet();
+            if (InjectDLL(processID, dllPath)) {
+                PrintWithDateTimeAndColor(L"Hanbot initialized successfully.");
 
+                EnableInternet();
 
-                    EnableInternet();
+                injected = true;
 
-                    injected = true; 
+                LPVOID fn_get_key_state = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "GetAsyncKeyState");
+                LPVOID fn_issue_order = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "IssueOrder");
+                LPVOID fn_cast_spell = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "SendSpellCastPacket");
+                LPVOID fn_update_spell = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "UpdateChargedSpell");
 
-                    LPVOID fn_get_key_state = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "GetAsyncKeyState");
-                    LPVOID fn_issue_order = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "IssueOrder");
-                    LPVOID fn_cast_spell = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "SendSpellCastPacket");
-                    LPVOID fn_update_spell = (LPVOID)GetProcAddress(GetModuleHandle(L"stub.dll"), "UpdateChargedSpell");
-
-                    if (!fn_get_key_state || !fn_issue_order || !fn_cast_spell || !fn_update_spell) {
-                        std::wcerr << L" " << std::endl;
-
-                    }
-                    else {
-
-                        OverrideFunction(processID, fn_get_key_state, (LPVOID)GetAsyncKeyStateSingle);
-                        OverrideFunction(processID, fn_issue_order, (LPVOID)IssueOrder);
-                        OverrideFunction(processID, fn_cast_spell, (LPVOID)SendSpellCastPacket);
-                        OverrideFunction(processID, fn_update_spell, (LPVOID)UpdateChargedSpell);
-
-                        std::wcout << L"Bot functions overwritten successfully." << std::endl;
-                    }
-
+                if (!fn_get_key_state || !fn_issue_order || !fn_cast_spell || !fn_update_spell) {
+                        //REQUIRE AN UPDATE TO GET PROPERLY FUNCTIONS
                 }
                 else {
-                    std::wcerr << L"Initialization unsuccessful." << std::endl;
+                    OverrideFunction(processID, fn_get_key_state, (LPVOID)GetAsyncKeyStateSingle);
+                    OverrideFunction(processID, fn_issue_order, (LPVOID)IssueOrder);
+                    OverrideFunction(processID, fn_cast_spell, (LPVOID)SendSpellCastPacket);
+                    OverrideFunction(processID, fn_update_spell, (LPVOID)UpdateChargedSpell);
+
+                    PrintWithDateTimeAndColor(L"Bot functions overwritten successfully.");
+                        //REQUIRE AN UPDATE TO GET PROPERLY FUNCTIONS
                 }
             }
+            else {
+                PrintWithDateTimeAndColor(L"Initialization unsuccessful.", true);
+            }
+        }
         else if (processID == 0) {
-            injected = false; 
+            injected = false;
         }
         Sleep(100);
     }
