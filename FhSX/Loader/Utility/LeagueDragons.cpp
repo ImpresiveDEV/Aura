@@ -47,9 +47,9 @@ void LeagueDragons::DownloadFile(const std::string& url, const std::string& file
             curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L); 
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); 
-            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L); 
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
             res = curl_easy_perform(curl);
             fclose(file);
@@ -85,7 +85,7 @@ void LeagueDragons::DownloadAndSaveFiles(const std::string& jsonString) {
         std::string fileName = file["Name"];
 
         std::string downloadLink = file.value("downloadLink", "");
-        if (downloadLink.empty()) 
+        if (downloadLink.empty())
             downloadLink = file.value("DownloadLink", "");
 
         if (!downloadLink.empty()) {
@@ -145,7 +145,7 @@ void LeagueDragons::CheckGameVersion() {
     if (gameVersionFromJson == gameVersionFromFile) {
         std::cout << "Hanbot Core is up to date! The loaded version is: " << gameVersionFromFile << std::endl;
 
-        DownloadAndSaveFiles(jsonContent); 
+        DownloadAndSaveFiles(jsonContent);
     }
     else {
         std::cout << "Hanbot Core is Outdated. Wait for update Nexus Core summoner. The client now will close for 15 sec. Hanbot core version is: " << gameVersionFromJson << ", League of Legends version is: " << gameVersionFromFile << std::endl;
