@@ -8,7 +8,7 @@ keyAuthInit::keyAuthInit() :
     ownerid(skCrypt("").decrypt()),
     secret(skCrypt("").decrypt()),
     version(skCrypt("").decrypt()),
-    url(skCrypt("https://keyauth.win/api/1.2/").decrypt()),
+    url(skCrypt("").decrypt()),
     KeyAuthApp(name, ownerid, secret, version, url) {}
 
 void keyAuthInit::init() {
