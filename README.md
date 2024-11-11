@@ -1,4 +1,4 @@
-# **Hanbot Script Platform - League of Legends Anti-Cheat Bypass**
+# **Hanbot Script Platform - League of Legends Anti-Cheat AURA Bypass**
 
 🚀 Bypass Riot Games' User-Mode Anti-Cheat
 
